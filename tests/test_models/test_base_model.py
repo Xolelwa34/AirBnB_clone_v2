@@ -24,7 +24,7 @@ class test_basemodel(unittest.TestCase):
     def tearDown(self):
         try:
             os.remove('file.json')
-        except:
+        except FileNotFoundError:
             pass
 
     def test_default(self):
@@ -93,7 +93,14 @@ class test_basemodel(unittest.TestCase):
     def test_updated_at(self):
         """ """
         new = self.value()
+        # Print(f"before save: {new.updated_at}")
         self.assertEqual(type(new.updated_at), datetime.datetime)
+
+        import time
+        time.sleep(1)
+        new.save()
+
+        # Print(f"after save: {new.updated_at}")
         n = new.to_dict()
         new = BaseModel(**n)
         self.assertFalse(new.created_at == new.updated_at)
