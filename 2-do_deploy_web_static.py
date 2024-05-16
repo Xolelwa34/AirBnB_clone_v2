@@ -1,40 +1,33 @@
 #!/usr/bin/python3
-""" Web application deployement for web static """
+"""
+a Fabric script (based on 1-pack_web_static.py) that distributes
+an archive to your web servers, using the function do_deploy.
+"""
 from datetime import datetime
 from fabric.api import *
 import shlex
 import os
 
 
-env.hosts = ['35.231.33.237', '34.74.155.163']
-env.user = "ubuntu"
+env.hosts = ['18.234.253.252', '52.91.153.152']
 
 
 def do_deploy(archive_path):
     """ Func to deploy the static files to the web server """
-    if not os.path.exists(archive_path):
+    if exists(archive_path) is False:
         return False
     try:
-        name = archive_path.replace('/', ' ')
-        name = shlex.split(name)
-        name = name[-1]
-
-        wname = name.replace('.', ' ')
-        wname = shlex.split(wname)
-        wname = wname[0]
-
-        releases_path = "/data/web_static/releases/{}/".format(wname)
-        tmp_path = "/tmp/{}".format(name)
-
-        put(archive_path, "/tmp/")
-        run("mkdir -p {}".format(releases_path))
-        run("tar -xzf {} -C {}".format(tmp_path, releases_path))
-        run("rm {}".format(tmp_path))
-        run("mv {}web_static/* {}".format(releases_path, releases_path))
-        run("rm -rf {}web_static".format(releases_path))
-        run("rm -rf /data/web_static/current")
-        run("ln -s {} /data/web_static/current".format(releases_path))
-        print("New version deployed!")
+        file_n = archive_path.split("/")[-1]
+        no_ext = file_n.split(".")[0]
+        path = "/data/web_static/releases/"
+        put(archive_path, '/tmp/')
+        run('mkdir -p {}{}/'.format(path, no_ext))
+        run('tar -xzf /tmp/{} -C {}{}/'.format(file_n, path, no_ext))
+        run('rm /tmp/{}'.format(file_n))
+        run('mv {0}{1}/web_static/* {0}{1}/'.format(path, no_ext))
+        run('rm -rf {}{}/web_static'.format(path, no_ext))
+        run('rm -rf /data/web_static/current')
+        run('ln -s {}{}/ /data/web_static/current'.format(path, no_ext))
         return True
-    except Exception as e:
+    except:
         return False
