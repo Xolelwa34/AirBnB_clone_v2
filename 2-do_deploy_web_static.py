@@ -3,12 +3,8 @@
 a Fabric script (based on 1-pack_web_static.py) that distributes
 an archive to your web servers, using the function do_deploy.
 """
-from datetime import datetime
-from fabric.api import *
-import shlex
-import os
-
-
+from fabric.api import put, run, env
+from os.path import exists
 env.hosts = ['18.234.253.252', '52.91.153.152']
 
 
