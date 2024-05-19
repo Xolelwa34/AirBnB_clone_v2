@@ -42,9 +42,9 @@ def do_deploy(archive_path):
         return False
 
 
-def deploy():
-    """ do path an do deploy"""
-    archive_path = do_pack()
-    if archive_path is None:
-        return False
-    return do_deploy(archive_path)
+    def deploy():
+        """ Do Path An Do Deploy"""
+        archive_path = do_pack()
+        if archive_path is None:
+            return 1
+        return 0 if do_deploy(archive_path) else 1
