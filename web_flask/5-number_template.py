@@ -6,6 +6,7 @@ from flask import Flask, render_template
 
 app = Flask(__name__)
 
+
 @app.route('/', strict_slashes=False)
 def index():
     """Responds with a greeting from HBNB"""
@@ -20,14 +21,14 @@ def hbnb():
 
 @app.route('/c/<text>', strict_slashes=False)
 def cisfun(text):
-    """Displays 'C ' followed by the input text, replacing underscores with spaces"""
+    """Displays 'C ' followed by the input text"""
     return 'C ' + text.replace('_', ' ')
 
 
 @app.route('/python', strict_slashes=False)
 @app.route('/python/<text>', strict_slashes=False)
 def pythoniscool(text='is cool'):
-    """Displays 'Python ', followed by the input text, replacing underscores with spaces"""
+    """Displays 'Python ', followed by the input text"""
     return 'Python ' + text.replace('_', ' ')
 
 
