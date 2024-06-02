@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Script that runs the app with a flask web framework
+Function that creates the app with a flask web framework
 """
 from flask import Flask
 
