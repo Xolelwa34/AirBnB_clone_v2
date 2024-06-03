@@ -1,11 +1,11 @@
 #!/usr/bin/python3
 """
-A script that starts a Flask web application to display a list of states.
-This application connects to a database to retrieve state information,
-sorts the states alphabetically, and renders them in an HTML template.
+This module contains a script that starts a Flask web application.
+Imports necessary modules, sets up routes,& handles application teardown.
 """
 
 from flask import Flask, render_template
+from models import *
 from models import storage
 
 app = Flask(__name__)
@@ -13,13 +13,9 @@ app = Flask(__name__)
 @app.route('/states_list', strict_slashes=False)
 def states_list():
     """
-    Handles the route for /states_list.
-    
-    This function retrieves all State objects from the database, sorts them
-    by their name, and renders them in an HTML template.
-    
-    Returns:
-        str: The rendered HTML template displaying the states in alphabetical order.
+    This function handles the '/states_list' route.
+    It fetches all the states, sorts them in alphabetical order,
+    and renders them on a HTML page.
     """
     states = sorted(list(storage.all("State").values()), key=lambda x: x.name)
     return render_template('7-states_list.html', states=states)
@@ -27,15 +23,14 @@ def states_list():
 @app.teardown_appcontext
 def teardown_db(exception):
     """
-    Closes the database storage when the app context is torn down.
-    
-    This function ensures that the storage is properly closed after the 
-    application context ends, helping to manage resources efficiently.
-    
-    Args:
-        exception (Exception): The exception that caused the teardown, if any.
+    This function is called when the application context tears down.
+    It closes the storage.
     """
     storage.close()
 
 if __name__ == '__main__':
+    """
+    This block ensures the Flask application only runs if the script
+    is executed directly. When the script is imported, nothing happens.
+    """
     app.run(host='0.0.0.0', port='5000')
