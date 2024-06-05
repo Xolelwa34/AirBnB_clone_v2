@@ -1,17 +1,19 @@
 #!/usr/bin/python3
-"""
-Function that creates the app with a flask web framework
-"""
+"""starts a web flask application"""
 from flask import Flask
+"""class Flask"""
 
 
 app = Flask(__name__)
 
 
 @app.route('/', strict_slashes=False)
-def hello():
-    """Hello function"""
-    return 'Hello HBNB!'
+def hello_hbnb():
+    """displays text
+    Returns:
+        text
+    """
+    return "Hello HBNB!"
 
 
 if __name__ == "__main__":
