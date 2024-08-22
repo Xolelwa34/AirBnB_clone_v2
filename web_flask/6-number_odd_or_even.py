@@ -71,18 +71,11 @@ def display_HTML(n):
 
 
 @app.route('/number_odd_or_even/<int:n>', strict_slashes=False)
-def display_odd_even(n):
-    """displays text
-    Args:
-        n (int): number
-    Returns:
-        HTML page
-    """
+def number_odd_or_even(n):
     if n % 2 == 0:
-        desc = 'even'
+        return f'<h1>Number: {n} is even</h1>'
     else:
-        desc = 'odd'
-    return render_template('6-number_odd_or_even.html', n=n, desc=desc)
+        return f'<h1>Number: {n} is odd</h1>'
 
 
 if __name__ == "__main__":
